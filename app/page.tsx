@@ -1,20 +1,60 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
+import {
+  ArrowRight,
+  HeartPulse,
+  Lightbulb,
+  Lock,
+  MessageSquareHeart,
+} from "lucide-react";
 import { Ripple } from "@/components/ui/ripple";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { Card, CardHeader, CardContent } from "@/components/ui/card";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
   const emotions = [
     { value: 0, label: "😔 低落", color: "from-blue-500/50" },
     { value: 25, label: "😊 还好", color: "from-green-500/50" },
     { value: 50, label: "😌 平静", color: "from-purple-500/50" },
     { value: 75, label: "🤗 开心", color: "from-yellow-500/50" },
     { value: 100, label: "✨ 兴奋", color: "from-pink-500/50" },
+  ];
+
+  const features = [
+    {
+      icon: HeartPulse,
+      title: "全天候陪伴",
+      description: "无论何时，都在这里倾听并支持你的情绪",
+      color: "from-rose-500/20",
+      delay: 0.2,
+    },
+    {
+      icon: Lightbulb,
+      title: "智能洞察",
+      description: "基于情绪理解，提供个性化引导与建议",
+      color: "from-amber-500/20",
+      delay: 0.4,
+    },
+    {
+      icon: Lock,
+      title: "私密与安全",
+      description: "所有对话均经过加密处理，严格保护你的隐私",
+      color: "from-emerald-500/20",
+      delay: 0.6,
+    },
+    {
+      icon: MessageSquareHeart,
+      title: "循证支持",
+      description: "基于临床研究的情绪支持与干预方法",
+      color: "from-blue-500/20",
+      delay: 0.8,
+    },
   ];
 
   const [emotion, setEmotion] = useState(50);
@@ -30,6 +70,7 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen overflow-hidden">
       <section className="relative min-h-[90vh] mt-20 flex flex-col items-center justify-center py-12 px-4">
+        {/* backgtound blur */}
         <div className="absolute inset-0 -z-10 overflow-hidden">
           <div
             className={`absolute w-[500px] h-[500px] rounded-full blur-3xl top-0 -left-20 transition-all duration-700 ease-in-out
@@ -71,7 +112,7 @@ export default function Home() {
             伙伴愿意倾听你的心声，理解你的感受，陪你走过每一段旅程。
           </p>
 
-          {/* Emotion slider section with enhanced transitions */}
+          {/* Emotion slider  */}
           <motion.div
             className="w-full max-w-[600px] mx-auto space-y-6 py-8"
             initial={{ opacity: 0, y: 20 }}
@@ -131,20 +172,76 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: mounted ? 1 : 0, y: mounted ? 0 : 20 }}
             transition={{ delay: 0.2, duration: 0.8 }}
-          >
-            <Button
-              size="lg"
-              onClick={() => setShowDialog(true)}
-              className="relative group h-12 px-8 rounded-full bg-gradient-to-r from-primary via-primary/90 to-secondary hover:to-primary shadow-lg shadow-primary/20 transition-all duration-500 hover:shadow-xl hover:shadow-primary/30"
-            >
-              <span className="relative z-10 font-sans flex items-center gap-2">
-                开始你的旅程
+	          >
+	            <Button
+	              size="lg"
+	              onClick={() => router.push("/login")}
+	              className="relative group h-12 px-8 rounded-full bg-primary  shadow-lg shadow-primary/20  hover:shadow-xl hover:shadow-primary/30 transform hover:scale-105 transition-all ease-in-out delay-100 duration-500"
+	            >
+	              <span className="relative z-10 font-sans flex items-center gap-2">
+	                开始你的旅程
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
               </span>
               <div className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-size-200 bg-pos-0 group-hover:bg-pos-100" />
             </Button>
           </motion.div>
         </motion.div>
+      </section>
+
+      {/* features grid */}
+      <section className="relative py-20 px-4 overflow-hidden">
+        <div className="max-w-6xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+            viewport={{ once: true }}
+            className="text-center mb-16 space-y-4 text-white"
+          >
+            <h2 className="text-3xl font-sans bg-gradient-to-r from-primary/90 to-primary bg-clip-text text-transparent dark:text-primary/90">
+              Pura 如何治愈你？
+            </h2>
+            <p className="text-foreground dark:text-foreground/95 max-w-2xl mx-auto font-sans text-lg">
+              一种全新的情绪支持方式，
+              <br />
+              源自同理心 AI
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 relative">
+            {features.map((feature, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: feature.delay, duration: 0.5 }}
+                viewport={{ once: true }}
+              >
+                <Card className="group relative overflow-hidden border border-primary/10 hover:border-primary/20 transition-all duration-300 h-[200px] bg-card/30 dark:bg-card/80 backdrop-blur-sm">
+                  <div
+                    className={`absolute inset-0 bg-gradient-to-br ${feature.color} to-transparent opacity-0 group-hover:opacity-20 transition-opacity duration-500 dark:group-hover:opacity-30`}
+                  />
+                  <CardHeader className="pb-4">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 rounded-xl bg-primary/10 dark:bg-primary/20 group-hover:bg-primary/20 dark:group-hover:bg-primary/30 transition-colors duration-300">
+                        <feature.icon className="w-5 h-5 text-primary dark:text-primary/90" />
+                      </div>
+                      <h3 className="font-semibold tracking-tight text-foreground/90 dark:text-foreground">
+                        {feature.title}
+                      </h3>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground/90 dark:text-muted-foreground leading-relaxed">
+                      {feature.description}
+                    </p>
+                  </CardContent>
+                  <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-primary/20 dark:via-primary/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        </div>
       </section>
     </div>
   );

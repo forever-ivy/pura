@@ -115,13 +115,20 @@ export default function LoginPage() {
               </Form>
             </div>
 
-            <div className="text-center text-sm text-muted-foreground">
+            <div className="font-sans text-center text-sm text-muted-foreground">
               还没有账号？{" "}
               <Link
                 href="/signup"
                 className="text-primary hover:underline underline-offset-4"
               >
                 去注册
+              </Link>
+              <span className="text-muted-foreground"> · </span>
+              <Link
+                href="/forgot-password"
+                className="text-primary underline hover:text-primary/80 transition-colors"
+              >
+                忘记密码?
               </Link>
             </div>
           </div>

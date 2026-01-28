@@ -36,6 +36,7 @@ import { zhCN } from "date-fns/locale";
 import { AnxietyGames } from "@/components/games/anxiety-games";
 import { MoodForm } from "@/components/mood/mood-form";
 import { ActivityLogger } from "@/components/activities/activities-logger";
+import { useRouter } from "next/navigation";
 
 export default function Dashboard() {
   const [currentime, setCurrentime] = useState(new Date());
@@ -43,6 +44,7 @@ export default function Dashboard() {
   const [isSavingMood, setIsSavingMood] = useState(false);
   const [showActivitiesLogger, setShowActivitesLogger] = useState(false);
   const sparklesRef = useRef<AnimatedIconHandle>(null);
+  const router = useRouter();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -99,6 +101,11 @@ export default function Dashboard() {
     }
   };
 
+  // Add these action handlers
+  const handleStartTherapy = () => {
+    router.push("/therapy/new");
+  };
+
   return (
     <div className="min-h-screen bg-background p-8">
       <Container className="pt-20 pb-8 space-y-6">
@@ -152,7 +159,7 @@ export default function Dashboard() {
                         "bg-gradient-to-r from-primary/90 to-primary hover:from-primary hover:to-primary/90",
                         "transition-all duration-200 group-hover:translate-y-[-2px]",
                       )}
-                      //   onClick={handleStartTherapy}
+                      onClick={handleStartTherapy}
                     >
                       <div className="flex items-center gap-3">
                         <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
